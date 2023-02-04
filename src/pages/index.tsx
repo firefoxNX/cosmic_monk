@@ -50,7 +50,7 @@ const Home: NextPage = () => {
                             {hello.data ? hello.data.greeting : "Loading tRPC query..."}
                         </p>
                         <AuthShowcase/>
-                        <Link href="/api-docs">API Docs</Link>
+                        <Link href="/api-docs" className="text-lg text-white">API Docs</Link>
                     </div>
                 </div>
             </main>
@@ -63,16 +63,18 @@ export default Home;
 const AuthShowcase: React.FC = () => {
     const {data: sessionData} = useSession();
 
-    const {data: secretMessage} = api.example.getSecretMessage.useQuery(
-        undefined, // no input
-        {enabled: sessionData?.user !== undefined},
-    );
+    // const {data: secretMessage} = api.example.getSecretMessage.useQuery(
+    //     undefined, // no input
+    //     {enabled: sessionData?.user !== undefined},
+    // );
+
+    const {data: allData } = api.example.getAll.useQuery(undefined, {enabled: sessionData?.user !== undefined})
 
     return (
         <div className="flex flex-col items-center justify-center gap-4">
-            <p className="text-center text-2xl text-white">
+            <p className="text-center text-sm text-white">
                 {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
-                {secretMessage && <span> - {secretMessage}</span>}
+                {allData && <span> - {JSON.stringify(allData)}</span>}
             </p>
             <button
                 className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"

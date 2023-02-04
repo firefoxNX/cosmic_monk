@@ -42,8 +42,9 @@ export const exampleRouter = createTRPCRouter({
         }))
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        .query(({ctx}) => {
-            return ctx.prisma.example.findMany();
+        .query(async ({ctx}) => {
+            const examples = await ctx.prisma.example.findMany();
+            return {all: examples};
         }),
 
     getSecretMessage: protectedProcedure
