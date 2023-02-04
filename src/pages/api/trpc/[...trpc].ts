@@ -1,10 +1,10 @@
-import { createNextApiHandler } from '@trpc/server/adapters/next';
+import {createNextApiHandler} from '@trpc/server/adapters/next';
 
-import { appRouter } from '../../../server/api/root';
+import {appRouter} from '../../../server/api/root';
+import {createTRPCContext} from "../../../server/api/trpc";
 
 // Handle incoming tRPC requests
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 export default createNextApiHandler({
-  router: appRouter,
+    router: appRouter,
+    createContext: createTRPCContext,
 });

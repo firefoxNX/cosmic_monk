@@ -1,7 +1,7 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
 import cors from 'nextjs-cors';
 import {createOpenApiNextHandler} from 'trpc-openapi';
-
+import {createTRPCContext} from "../../server/api/trpc";
 import {appRouter} from '../../server/api/root';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -10,9 +10,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     await cors(req, res);
 
     // Handle incoming OpenAPI requests
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    return createOpenApiNextHandler({router: appRouter})(req, res);
+    return createOpenApiNextHandler({router: appRouter, createContext: createTRPCContext})(req, res);
 };
 
 export default handler;
